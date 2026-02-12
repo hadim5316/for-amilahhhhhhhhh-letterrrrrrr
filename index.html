@@ -197,13 +197,14 @@ function unlock(){
   }
 }
 
+// TYPING FUNCTION WITHOUT AUTO-SCROLL
 function typeText(){
   let i=0;
   const t=document.getElementById("typed");
   (function typing(){
     if(i<letter.length){
       t.textContent+=letter.charAt(i++);
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+      // window.scrollTo removed → no auto-scroll
       setTimeout(typing,15);
     }
   })();
