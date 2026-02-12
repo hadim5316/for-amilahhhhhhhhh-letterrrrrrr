@@ -133,6 +133,14 @@ button {
 }
 
 audio { display:none; }
+#tapMusic {
+  position: fixed;
+  top: 20px;
+  font-size: 1.2rem;
+  color: #fff;
+  text-shadow: 0 0 10px #ff9ce3;
+  pointer-events: none;
+}
 </style>
 </head>
 
@@ -170,6 +178,8 @@ audio { display:none; }
   <div class="letter" id="typed"></div>
 </div>
 
+<p id="tapMusic">🎶 Tap anywhere to start the music</p>
+
 <audio id="music" loop>
   <source src="music/saturn.mp3" type="audio/mpeg">
 </audio>
@@ -186,7 +196,10 @@ function unlock(){
   if(input.value === correct){
     document.getElementById("lock").classList.add("hidden");
     document.getElementById("letterPage").classList.remove("hidden");
-    document.getElementById("music").play();
+
+    const music = document.getElementById("music");
+    music.play().catch(()=>document.getElementById("tapMusic").style.display="block");
+
     typeText();
     hearts();
     stars();
@@ -204,7 +217,6 @@ function typeText(){
   (function typing(){
     if(i<letter.length){
       t.textContent+=letter.charAt(i++);
-      // window.scrollTo removed → no auto-scroll
       setTimeout(typing,15);
     }
   })();
@@ -246,6 +258,7 @@ function confetti(){
   }
 }
 
+// SPARKLES FOLLOW MOUSE
 document.addEventListener("mousemove", e=>{
   const sp=document.createElement("div");
   sp.className="sparkle";
@@ -254,6 +267,13 @@ document.addEventListener("mousemove", e=>{
   document.body.appendChild(sp);
   setTimeout(()=>sp.remove(),800);
 });
+
+// TAP TO START MUSIC FOR MOBILE
+document.addEventListener("click", ()=>{
+  const music = document.getElementById("music");
+  music.play();
+  document.getElementById("tapMusic").style.display="none";
+},{once:true});
 </script>
 
 </body>
